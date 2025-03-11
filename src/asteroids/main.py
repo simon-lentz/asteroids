@@ -20,6 +20,13 @@ def main():
     pygame.display.set_caption("Asteroids!")
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 
+    # create player-related containers
+    updatable = pygame.sprite.Group()
+    drawable = pygame.sprite.Group()
+
+    # Add groups as static field (tuple[Group, Group])before creating any instances
+    Player.containers = (updatable, drawable)
+
     # create a player
     player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, PLAYER_RADIUS)
 
@@ -37,17 +44,16 @@ def main():
         # fill background
         pygame.Surface.fill(screen, RGB_BLACK)
 
-        # draw player
-        player.draw(screen)
+        updatable.update(dt_s)
+
+        for object in drawable:
+            object.draw(screen)
 
         # update screen
         pygame.display.flip()
 
-        # tick clock time
-        dt_ms = clock.tick()
-
-        # update delta time
-        dt_s = dt_ms / 1000
+        # limit the framerate to 60 FPS
+        dt_s = clock.tick(60) / 1000
 
 
 if __name__ == "__main__":
