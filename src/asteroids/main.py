@@ -6,6 +6,8 @@ import pygame
 
 from constants import *
 from player import Player
+from asteroid import Asteroid
+from asteroidfield import AsteroidField
 
 
 def main():
@@ -20,16 +22,18 @@ def main():
     pygame.display.set_caption("Asteroids!")
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 
-    # create player-related containers
+    # create class-level static fields
+    asteroids = pygame.sprite.Group()
     updatable = pygame.sprite.Group()
     drawable = pygame.sprite.Group()
 
     # Add groups as static field (tuple[Group, Group])before creating any instances
     Player.containers = (updatable, drawable)
-
+    Asteroid.containers = (asteroids, updatable, drawable)
+    AsteroidField.containers = updatable
     # create a player
     player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, PLAYER_RADIUS)
-
+    asteroid_field = AsteroidField()
     # create a game clock to decouple game speed (should be linked to FPS) from while loop refresh rate
     clock = pygame.time.Clock()
 
@@ -48,6 +52,11 @@ def main():
 
         for object in drawable:
             object.draw(screen)
+
+        for asteroid in asteroids:
+            if player.collision(asteroid):
+                print("Game Over!")
+                return
 
         # update screen
         pygame.display.flip()
