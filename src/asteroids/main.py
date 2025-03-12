@@ -3,6 +3,7 @@
 # the open-source pygame library
 # throughout this file
 import pygame
+import circleshape
 
 from constants import *
 from player import Player
@@ -53,7 +54,6 @@ def main():
         pygame.Surface.fill(screen, RGB_BLACK)
 
         updatable.update(dt_s)
-
         for object in drawable:
             object.draw(screen)
 

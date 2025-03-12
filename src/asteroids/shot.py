@@ -20,3 +20,5 @@ class Shot(CircleShape):
 
     def update(self, dt_s: float):
         self.position += self.velocity * dt_s
+        # shots usually don't get wrapped
+        # self.wrap_position()

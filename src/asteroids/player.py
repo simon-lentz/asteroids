@@ -67,3 +67,5 @@ class Player(CircleShape):
                 self.cooldown -= dt_s
             else:
                 self.shoot(dt_s)
+
+        self.wrap_position()

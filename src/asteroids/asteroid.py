@@ -21,6 +21,7 @@ class Asteroid(CircleShape):
 
     def update(self, dt_s: float):
         self.position += self.velocity * dt_s
+        self.wrap_position()
 
     def split(self):
         original_position = self.position
@@ -37,7 +38,6 @@ class Asteroid(CircleShape):
 
         original_velocity *= 1.2
         split_velocity = original_velocity.rotate(split_angle)
-        print(f"Split Velocity: {split_velocity}")
         mirror_split_velocity = original_velocity.rotate(-split_angle)
 
         split_asteroid = Asteroid(

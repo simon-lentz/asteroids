@@ -2,6 +2,8 @@ from abc import ABC, abstractmethod
 
 import pygame
 
+from constants import *
+
 
 # Base class for game objects
 class CircleShape(ABC, pygame.sprite.Sprite):
@@ -23,6 +25,17 @@ class CircleShape(ABC, pygame.sprite.Sprite):
     @abstractmethod
     def update(self, dt_s: float):
         pass
+
+    def wrap_position(self):
+        # If object goes off one edge, reappear on the opposite
+        if self.position.x < (0 - self.radius):
+            self.position.x = SCREEN_WIDTH
+        elif self.position.x > (SCREEN_WIDTH + self.radius):
+            self.position.x = 0
+        if self.position.y < (0 - self.radius):
+            self.position.y = SCREEN_HEIGHT
+        elif self.position.y > (SCREEN_HEIGHT + self.radius):
+            self.position.y = 0
 
     def collision(self, other: "CircleShape") -> bool:
         dist = self.position.distance_to(other.position)
